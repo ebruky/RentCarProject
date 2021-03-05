@@ -62,6 +62,14 @@ namespace Business.Concrete
 
         public IDataResult<List<CarImages>> GetAllByCarId(int carId)
         {
+            List<CarImages> carImages = new List<CarImages>();
+               var result = _carImageDal.GetAll(c => c.CarId == carId).Count;
+            if (result == 0)
+            {
+                CarImages c = new CarImages { CarId = carId, Date = DateTime.Now , ImagePath= @"C:\Users\USER\source\repos\ReCapProject\Business\Uploads\car.png "};
+                carImages.Add(c);
+                return new SuccessDataResult<List<CarImages>>(carImages);
+            }
             return new SuccessDataResult<List<CarImages>>(_carImageDal.GetAll(c => c.CarId== carId));
         }
 
