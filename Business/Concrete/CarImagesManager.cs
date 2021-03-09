@@ -27,7 +27,7 @@ namespace Business.Concrete
         public IResult Add(IFormFile file, CarImages carImage)
         {
             IResult result = BusinessRules.Run(
-                CheckIfImageCountLimit(carImage.CarId)
+                CheckIfImageCountLimit(carImage.CarId), CheckIfImageExtensionValid(file)
                 );
 
             if (result != null)
@@ -105,5 +105,13 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+        private IResult CheckIfImageExtensionValid(IFormFile file)
+        {
+            bool isValidFileExtension = Messages.ValidImageFileTypes.Any(t => t == Path.GetExtension(file.FileName).ToUpper());
+            if (!isValidFileExtension)
+                return new ErrorResult(Messages.InvalidImageExtension);
+            return new SuccessResult();
+        }
+
     }
 }
