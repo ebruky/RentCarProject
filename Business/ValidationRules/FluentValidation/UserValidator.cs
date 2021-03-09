@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,9 @@ namespace Business.ValidationRules.FluentValidation
     {
         public UserValidator()
         {
-            RuleFor(u => u.Password).Must(ContainCharacter).WithMessage("Özel Karakter İçermeli");
+            
         }
 
-        private bool ContainCharacter(string arg)
-        {
-            for (int i = 0; i < arg.Length; i++)
-            {
-                if (arg[i] == '.' || arg[i] == '?' || arg[i] == '*' || arg[i] == '/' || arg[i] == '&' || arg[i] == '#') 
-                { return true; }
-                    
-            }
-            return false;
-        }
+        
     }
 }

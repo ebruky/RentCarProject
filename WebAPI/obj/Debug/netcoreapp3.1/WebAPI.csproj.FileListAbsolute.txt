@@ -79,3 +79,4 @@ C:\Users\USER\source\repos\ReCapProject\WebAPI\bin\Debug\netcoreapp3.1\System.We
 C:\Users\USER\source\repos\ReCapProject\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
 C:\Users\USER\source\repos\ReCapProject\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Features.dll
 C:\Users\USER\source\repos\ReCapProject\WebAPI\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
+C:\Users\USER\source\repos\ReCapProject\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
