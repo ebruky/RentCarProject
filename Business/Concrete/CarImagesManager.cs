@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Web.Helpers;
 using static System.Net.Mime.MediaTypeNames;
@@ -106,10 +107,11 @@ namespace Business.Concrete
             return new SuccessResult();
         }
         private IResult CheckIfImageExtensionValid(IFormFile file)
-        {
-            bool isValidFileExtension = Messages.ValidImageFileTypes.Any(t => t == Path.GetExtension(file.FileName).ToUpper());
+        { 
+            string[] ValidImageFileTypes = { ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".GIF", ".BMP", ".ICO" };
+        bool isValidFileExtension = ValidImageFileTypes.Any(t => t == Path.GetExtension(file.FileName).ToUpper());
             if (!isValidFileExtension)
-                return new ErrorResult(Messages.InvalidImageExtension);
+                return new ErrorResult("Resim formatında değil");
             return new SuccessResult();
         }
 
