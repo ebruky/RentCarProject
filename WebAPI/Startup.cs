@@ -40,8 +40,8 @@ namespace WebAPI
         {
             services.AddControllers();
 
-           // services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+            // services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddCors();
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -71,7 +71,7 @@ namespace WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(builder => builder.WithOrigins("http://localhost:61775").AllowAnyHeader());
             app.UseHttpsRedirection();
 
             app.UseRouting();
