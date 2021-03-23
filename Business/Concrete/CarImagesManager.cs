@@ -4,6 +4,7 @@ using Core.Utilities.FileHelper;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -23,29 +24,29 @@ namespace Business.Concrete
         {
             _carImageDal = carImageDal;
 
+
         }
+            public IResult Add(IFormFile file, CarImages carImage)
+            {//, CheckIfImageExtensionValid(file)
+                IResult result = BusinessRules.Run(
+                    CheckIfImageCountLimit(carImage.CarId)
+                    );
 
-        public IResult Add(IFormFile file, CarImages carImage)
-        {
-            IResult result = BusinessRules.Run(
-                CheckIfImageCountLimit(carImage.CarId), CheckIfImageExtensionValid(file)
-                );
+                if (result != null)
+                {
+                    return result;
+                }
 
-            if (result != null)
-            {
-                return result;
-            }
-
-            carImage.ImagePath = FileHelper.AddAsync(file);
-            carImage.Date = DateTime.Now;
-            _carImageDal.Add(carImage);
-            return new SuccessResult();
-        }
+                carImage.ImagePath = FileHelper.Add(file);
+                carImage.Date = DateTime.Now;
+                _carImageDal.Add(carImage);
+                return new SuccessResult();
+            } 
 
         public IResult Delete(CarImages carImage)
         {
             IResult result = BusinessRules.Run(
-                 FileHelper.DeleteAsync(_carImageDal.Get(p => p.Id == carImage.Id).ImagePath));
+                 FileHelper.Delete(_carImageDal.Get(p => p.Id == carImage.Id).ImagePath));
 
             if (result != null)
             {
@@ -67,7 +68,7 @@ namespace Business.Concrete
                var result = _carImageDal.GetAll(c => c.CarId == carId).Count;
             if (result == 0)
             {
-                CarImages c = new CarImages { CarId = carId, Date = DateTime.Now , ImagePath= @"C:\Users\USER\source\repos\ReCapProject\Business\Uploads\car.png "};
+                CarImages c = new CarImages { CarId = carId, Date = DateTime.Now , ImagePath= @"\images\default.jfif" };
                 carImages.Add(c);
                 return new SuccessDataResult<List<CarImages>>(carImages);
             }
@@ -79,6 +80,8 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImages>(_carImageDal.Get(c => c.Id == id));
         }
 
+       
+
         public IResult Update(IFormFile file, CarImages carImage)
         {
             IResult result = BusinessRules.Run(
@@ -89,7 +92,7 @@ namespace Business.Concrete
             {
                 return result;
             }
-            carImage.ImagePath = FileHelper.UpdateAsync(_carImageDal.Get(p => p.Id == carImage.Id).ImagePath, file);
+            carImage.ImagePath = FileHelper.Update(_carImageDal.Get(p => p.Id == carImage.Id).ImagePath, file);
             carImage.Date = DateTime.Now;
             _carImageDal.Update(carImage);
             return new SuccessResult();
@@ -108,7 +111,7 @@ namespace Business.Concrete
         }
         private IResult CheckIfImageExtensionValid(IFormFile file)
         { 
-            string[] ValidImageFileTypes = { ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".GIF", ".BMP", ".ICO" };
+            string[] ValidImageFileTypes = { ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".GIF", ".BMP", ".ICO","JFIF" };
         bool isValidFileExtension = ValidImageFileTypes.Any(t => t == Path.GetExtension(file.FileName).ToUpper());
             if (!isValidFileExtension)
                 return new ErrorResult("Resim formatında değil");

@@ -20,10 +20,13 @@ namespace Business.Concrete
     public class CarManagerr : ICarService
     {
         ICarDAL _icarDal;
+        ICarImagesService _carImagesService;
+        
 
-        public CarManagerr(ICarDAL icarDal)
+        public CarManagerr(ICarDAL icarDal, ICarImagesService carImagesService)
         {
             _icarDal = icarDal;
+            _carImagesService = carImagesService;
         }
 
         [SecuredOperation("admin")]
@@ -69,19 +72,30 @@ namespace Business.Concrete
             return new  SuccessDataResult<Car>(_icarDal.Get(c => c.ID == id), Messages.GetById);
         }
 
+       
+
         public IDataResult<List<CarDetailDTO>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDTO>>(_icarDal.GetCarDetails(), Messages.Details);
         }
 
-        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        public IDataResult<CarDetailDTO> GetCarDetailsById(int id)
         {
-            return new SuccessDataResult<List<Car>>(_icarDal.GetAll(c => c.BrandId == brandId), Messages.ListOfDesiredFeature);
+            
+            CarDetailDTO carDetailDTO = _icarDal.GetCarDetailsById(c => c.ID == id);
+            carDetailDTO.CarImages= _carImagesService.GetAllByCarId(id).Data;
+            return new SuccessDataResult<CarDetailDTO>(carDetailDTO);
+           
+        }
+        
+        public IDataResult<List<CarDetailDTO>> GetCarsByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDTO>>(_icarDal.GetCarDetails(c => c.BrandId == brandId), Messages.ListOfDesiredFeature);
         }
 
-        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
+        public IDataResult<List<CarDetailDTO>> GetCarsByColorId(int colorId)
         {
-            return new SuccessDataResult<List<Car>>(_icarDal.GetAll(c => c.ColorId == colorId), Messages.ListOfDesiredFeature);
+            return new SuccessDataResult<List<CarDetailDTO>>(_icarDal.GetCarDetails(c => c.ColorId == colorId), Messages.ListOfDesiredFeature);
         }
 
        public IResult Update(Car car)

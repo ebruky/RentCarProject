@@ -7,28 +7,32 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDAL : EfEntityRepositoryBase<Car, CarProjectContext>, ICarDAL
     {
-        public List<CarDetailDTO> GetCarDetails()
+        public List<CarDetailDTO> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             using (CarProjectContext context=new CarProjectContext())
             {
-               var result = 
-                            from car in context.Cars
-                            join br in context.Brands
-                             on car.BrandId equals br.BrandId
+                var result =
+                             from car in filter == null ? context.Cars : context.Cars.Where(filter)
+                             join br in context.Brands
+                              on car.BrandId equals br.BrandId
                              join col in context.Colors
-                             on car.ColorId equals col.ColorId
+                            on car.ColorId equals col.ColorId
+                            
                              select new CarDetailDTO
-                             {
+                             { Id = car.ID,
                                  BrandName = br.BrandName,
                                  ColorName = col.ColorName,
                                  DailyPrice = car.DailyPrice,
-                                 Description = car.Description
-                             };
+                                 Description = car.Description,
+                                 ImagePath= @"\images\default.jfif",
+                                 CarImages = new List<CarImages>()
+            };
 
                 return result.ToList();     
 
@@ -36,6 +40,35 @@ namespace DataAccess.Concrete.EntityFramework
             }
 
            
+        }
+
+        public CarDetailDTO GetCarDetailsById(Expression<Func<Car, bool>> filter = null)
+        {
+            using (CarProjectContext context = new CarProjectContext())
+            {
+                var result =
+                             from car in filter == null ? context.Cars : context.Cars.Where(filter)
+                             join br in context.Brands
+                              on car.BrandId equals br.BrandId
+                             join col in context.Colors
+                            on car.ColorId equals col.ColorId
+                             join image in context.CarImagess
+                            on car.ID equals image.CarId
+                             select new CarDetailDTO
+                             {
+                                 Id = car.ID,
+                                 BrandName = br.BrandName,
+                                 ColorName = col.ColorName,
+                                 DailyPrice = car.DailyPrice,
+                                 Description = car.Description,
+                                 ImagePath = image.ImagePath,
+                                 CarImages = new List<CarImages>()
+                             };
+
+                return result.FirstOrDefault();
+
+
+            }
         }
     }
 }
