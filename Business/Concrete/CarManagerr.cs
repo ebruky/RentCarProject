@@ -98,7 +98,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDTO>>(_icarDal.GetCarDetails(c => c.ColorId == colorId), Messages.ListOfDesiredFeature);
         }
 
-       public IResult Update(Car car)
+        public IDataResult<List<CarDetailDTO>> GetFilterCar(int brandId, int colorId)
+        {
+            return new SuccessDataResult<List<CarDetailDTO>>(_icarDal.GetCarDetails(c => c.ColorId == colorId&&c.BrandId==brandId));
+        }
+
+        public IResult Update(Car car)
         {
             _icarDal.Update(car);
             return new SuccessResult(Messages.Uptated);
