@@ -7,6 +7,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -19,15 +20,15 @@ namespace Business.Concrete
         {
             _irentalDal = irentalDal;
         }
-        [ValidationAspect(typeof(RentalValidator))]
+        //[ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            if (CheckCar(rental.CarId).Success)
-            {
-                if(!CheckReturnDate(rental.CarId).Success)
+            //if (CheckCar(rental.CarId).Success)
+            //{
+            //    if(!CheckReturnDate(rental.CarId).Success)
 
-                return new ErrorResult(Messages.NotAdded);
-            }
+            //    return new ErrorResult(Messages.NotAdded);
+            //}
             
             _irentalDal.Add(rental);
             return new SuccessResult();
@@ -35,35 +36,42 @@ namespace Business.Concrete
 
         public IResult CheckCar(int carId)
         {
-            
-
             var result = _irentalDal.GetAll();
             foreach (var rental in result)
             {
-                if (carId == rental.CarId)
+                if (rental.CarId == carId)
                 {
-                    
-                    return new SuccessResult();
+
+                    if (CheckReturnDate(carId).Success)
+                    {
+                        return new SuccessResult("Araç Kiralanabilir");
+
+                    }
+                    return new ErrorResult("Araç Kiralanamaz");
                 }
-                
+
             }
-            return new ErrorResult();
-
-        }
-
-        public IResult CheckReturnDate(int carId)
-        {
-
-
-            var result = _irentalDal.Get(c => c.CarId == carId);
-             if (result.ReturnDate!=null)
-                {
-                   return new SuccessResult();
-                }
-
             
-            return new ErrorResult();
+          return new SuccessResult("Araç Kiralanabilir");
+           
+
         }
+
+         private  IResult CheckReturnDate(int carId)
+         {
+          
+
+            var result = _irentalDal.GetAll(c => c.CarId == carId).LastOrDefault();
+            
+            
+            if (result.ReturnDate!=null)
+            {
+                return new SuccessResult();
+            }
+
+
+            return new ErrorResult();
+         }
 
         public IResult Delete(Rental rental)
         {

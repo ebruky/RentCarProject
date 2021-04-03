@@ -52,8 +52,7 @@ namespace DataAccess.Concrete.EntityFramework
                               on car.BrandId equals br.BrandId
                              join col in context.Colors
                             on car.ColorId equals col.ColorId
-                             join image in context.CarImagess
-                            on car.ID equals image.CarId
+                             
                              select new CarDetailDTO
                              {
                                  Id = car.ID,
@@ -61,7 +60,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ColorName = col.ColorName,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 ImagePath = image.ImagePath,
+                                 ImagePath = @"\images\default.jfif",
                                  CarImages = new List<CarImages>()
                              };
 
