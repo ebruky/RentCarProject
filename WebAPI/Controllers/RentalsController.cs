@@ -64,11 +64,8 @@ namespace WebAPI.Controllers
         public IActionResult CheckCar(int carId)
         {
             var result = _rentalService.CheckCar(carId);
-            //if (result.Success)
-            //{
-                return Ok(result);
-            //}
-            //return BadRequest(result);
+            return Ok(result);
+           
         }
 
         [HttpPost("update")]
