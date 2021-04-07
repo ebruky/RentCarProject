@@ -47,11 +47,11 @@ namespace WebAPI.Controllers
         public IActionResult Add(Color color)
         {
             var result = _colorService.Add(color);
-            if (result.Success)
-            {
+            //if (result.Success)
+            //{
                 return Ok(result);
-            }
-            return BadRequest(result);
+            //}
+            //return BadRequest(result);
         }
         [HttpPost("delete")]
         public IActionResult Delete(Color color)

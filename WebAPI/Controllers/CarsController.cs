@@ -76,12 +76,12 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public IActionResult Add(Car car)
         {
-            var result = _carService.Add(car);
-            if (result.Success)
-            {
+          var result = _carService.Add(car);
+        //    if (result.Success)
+        //    {
                 return Ok(result);
-            }
-            return BadRequest(result);
+            //}
+            //return BadRequest(result);
         }
         [HttpPost("delete")]
         public IActionResult Delete(Car car)
