@@ -87,35 +87,35 @@ namespace ConsoleAPI
 
         private static void CarTest()
         {
-            CarManagerr cm = new CarManagerr(new EfCarDAL());
-            Car car1 = new Car { BrandId = 1, DailyPrice = 150, Description = "Citroen", ColorId = 2, ModelYear = "2014" };
-            //cm.Add(car1);    //Ekleme
-            //foreach (var cars in cm.GetAll())
-            //{
-            //    Console.WriteLine(cars.Description + "              " + cars.BrandId.ToString());
-            //}
-            //Console.WriteLine("-----------------------------------------");
-            //car1.BrandId = 2;
-            //cm.Update(car1);   //Güncelleme 
+            //CarManagerr cm = new CarManager(new EfCarDAL());
+            //Car car1 = new Car { BrandId = 1, DailyPrice = 150, Description = "Citroen", ColorId = 2, ModelYear = "2014" };
+            ////cm.Add(car1);    //Ekleme
+            ////foreach (var cars in cm.GetAll())
+            ////{
+            ////    Console.WriteLine(cars.Description + "              " + cars.BrandId.ToString());
+            ////}
+            ////Console.WriteLine("-----------------------------------------");
+            ////car1.BrandId = 2;
+            ////cm.Update(car1);   //Güncelleme 
 
-            //foreach (var cars in cm.GetAll())
-            //{
-            //    Console.WriteLine(cars.Description + "              " + cars.BrandId.ToString());
-            //}
-            //Console.WriteLine("-----------------------------------------");
-            //cm.Delete(car1);    //Silme 
-            //foreach (var cars in cm.GetAll())
-            //{
-            //    Console.WriteLine(cars.Description);
-            //}
-            //Console.WriteLine("-----------------------------------------");
-            //var result = cm.GetById(2);
-            //Console.WriteLine(result.Description);
+            ////foreach (var cars in cm.GetAll())
+            ////{
+            ////    Console.WriteLine(cars.Description + "              " + cars.BrandId.ToString());
+            ////}
+            ////Console.WriteLine("-----------------------------------------");
+            ////cm.Delete(car1);    //Silme 
+            ////foreach (var cars in cm.GetAll())
+            ////{
+            ////    Console.WriteLine(cars.Description);
+            ////}
+            ////Console.WriteLine("-----------------------------------------");
+            ////var result = cm.GetById(2);
+            ////Console.WriteLine(result.Description);
 
-            foreach (var cars in cm.GetCarDetails().Data)
-            {
-                Console.WriteLine("{0}  {1}  {2} ",cars.Description,cars.ColorName,cars.BrandName);
-            }
+            //foreach (var cars in cm.GetCarDetails().Data)
+            //{
+            //    Console.WriteLine("{0}  {1}  {2} ",cars.Description,cars.ColorName,cars.BrandName);
+            //}
         }
 
     }

@@ -24,7 +24,7 @@ namespace Business.Concrete
         {
             var claims = _userService.GetClaims(user).Data;
             var accessToken = _tokenHelper.CreateToken(user, claims);
-            return new SuccessDataResult<AccessToken>(accessToken, "token oluştu");
+            return new SuccessDataResult<AccessToken>(accessToken, "Giriş Yapıldı");
         }
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
@@ -32,12 +32,12 @@ namespace Business.Concrete
             var userToCheck = _userService.GetByMail(userForLoginDto.Email).Data;
             if (userToCheck == null)
             {
-                return new ErrorDataResult<User>("kullanıcı bulunamadı");
+                return new ErrorDataResult<User>("Kullanıcı Bulunamadı");
             }
 
             if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
-                return new ErrorDataResult<User>("parola hatası");
+                return new ErrorDataResult<User>("Parola Hatası");
             }
 
             return new SuccessDataResult<User>(userToCheck, "başarılı giriş");
@@ -57,7 +57,25 @@ namespace Business.Concrete
                 Status = true
             };
             _userService.Add(user);
-            return new SuccessDataResult<User>(user, "Kayıt olundu");
+            return new SuccessDataResult<User>(user, "Kayıt olundu");   
+        }
+
+        public IDataResult<User> Update(UserForUpdateDto userForUpdateDto, string password)
+        {
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            var user = _userService.GetById(userForUpdateDto.Id);
+
+            user.Data.Email = userForUpdateDto.Email;
+               user.Data.FirstName = userForUpdateDto.FirstName;
+                user.Data.LastName = userForUpdateDto.LastName;
+                user.Data.PasswordHash = passwordHash;
+            user.Data.PasswordSalt = passwordSalt;
+                user.Data.Status = true;
+            
+            _userService.Update(user.Data);
+            return new SuccessDataResult<User>(user.Data, "Güncelleme İşlemi Tamamlandı.");
+
         }
 
         public IResult UserExists(string email)

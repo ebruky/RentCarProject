@@ -74,3 +74,7 @@ C:\Users\USER\source\repos\ReCapProject\ConsoleAPI\bin\Debug\netcoreapp3.1\Micro
 C:\Users\USER\source\repos\ReCapProject\ConsoleAPI\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
 C:\Users\USER\source\repos\ReCapProject\ConsoleAPI\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
 C:\Users\USER\source\repos\ReCapProject\ConsoleAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Abstractions.dll
+C:\Users\USER\source\repos\ReCapProject\ConsoleAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.dll
+C:\Users\USER\source\repos\ReCapProject\ConsoleAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.WebUtilities.dll
+C:\Users\USER\source\repos\ReCapProject\ConsoleAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.ObjectPool.dll
+C:\Users\USER\source\repos\ReCapProject\ConsoleAPI\bin\Debug\netcoreapp3.1\Microsoft.Net.Http.Headers.dll

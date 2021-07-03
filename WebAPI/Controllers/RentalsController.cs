@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
         [HttpGet("checkcar")]
         public IActionResult CheckCar(int carId)
         {
-            var result = _rentalService.CheckCar(carId);
+            var result = _rentalService.CheckReturnDate(carId);
             return Ok(result);
            
         }

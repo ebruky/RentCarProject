@@ -29,7 +29,7 @@ namespace Business.Concrete
             _carImagesService = carImagesService;
         }
 
-        //[SecuredOperation("admin")]
+       // [SecuredOperation("admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)

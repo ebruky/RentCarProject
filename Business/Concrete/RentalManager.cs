@@ -23,48 +23,26 @@ namespace Business.Concrete
         //[ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            //if (CheckCar(rental.CarId).Success)
-            //{
-            //    if(!CheckReturnDate(rental.CarId).Success)
-
-            //    return new ErrorResult(Messages.NotAdded);
-            //}
+           
             
             _irentalDal.Add(rental);
             return new SuccessResult();
         }
 
-        public IResult CheckCar(int carId)
-        {
-            var result = _irentalDal.GetAll();
-            foreach (var rental in result)
-            {
-                if (rental.CarId == carId)
-                {
+      
 
-                    if (CheckReturnDate(carId).Success)
-                    {
-                        return new SuccessResult("Araç Kiralanabilir");
-
-                    }
-                    return new ErrorResult("Araç Kiralanamaz");
-                }
-
-            }
-            
-          return new SuccessResult("Araç Kiralanabilir");
-           
-
-        }
-
-         private  IResult CheckReturnDate(int carId)
+        public IResult CheckReturnDate(int carId)
          {
-          
 
+            int fark = 0;
             var result = _irentalDal.GetAll(c => c.CarId == carId).LastOrDefault();
-            
-            
-            if (result.ReturnDate!=null)
+            DateTime date = DateTime.Now;
+            if (result != null)
+            {
+                fark = DateTime.Compare(result.ReturnDate, date);
+            }
+           
+            if (result==null||fark<0)
             {
                 return new SuccessResult();
             }
